@@ -1,4 +1,16 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
+import Heading from "../../ui/Heading";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const ChartBox = styled.div`
   /* Box */
@@ -130,3 +142,63 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+function DurationChart({ confirmedStays }) {
+  const { isDarkMode } = useDarkMode();
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
+
+  // const colors = isDarkMode
+  //   ? {
+  //       totalSales: { stroke: "#4f46e5", fill: "#4f46e5" },
+  //       extrasSales: { stroke: "#22c55e", fill: "#22c55e" },
+  //       text: "#e5e7eb",
+  //       background: "#18212f",
+  //     }
+  //   : {
+  //       totalSales: { stroke: "#4f46e5", fill: "#c7d2fe" },
+  //       extrasSales: { stroke: "#16a34a", fill: "#dcfce7" },
+  //       text: "#374151",
+  //       background: "#fff",
+  //     };
+
+  return (
+    <ChartBox>
+      <Heading as="h2">Stay duration summary</Heading>
+      <ResponsiveContainer width="100%" height={240}>
+        <PieChart>
+          <Pie
+            data={data}
+            nameKey="duration"
+            dataKey="value"
+            innerRadius={85}
+            outerRadius={110}
+            cx="40%"
+            cy="50%"
+            paddingAngle={3}
+          >
+            {data.map((entry) => (
+              <Cell
+                fill={entry.color}
+                stroke={entry.color}
+                key={entry.duration}
+              />
+            ))}
+          </Pie>
+          <Tooltip />
+          {/* <Tooltip contentStyle={{ backgroundColor: colors.background }} /> */}
+          <Legend
+            verticalAlign="middle"
+            align="right"
+            width="30%"
+            layout="vertical"
+            iconSize={15}
+            iconType="circle"
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartBox>
+  );
+}
+
+export default DurationChart;
