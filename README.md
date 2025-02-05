@@ -153,6 +153,6 @@ Screen for setting values and maximum and minimum amounts of days, occupants and
 
 ### 8. Account settings
 
-![alt text](image-17.png)
+![alt text](<Account Settings Page.png>)
 
 Screen for updating data about the user such as the name, the avatar image and also the password.
